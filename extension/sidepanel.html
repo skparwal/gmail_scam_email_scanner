@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scam Message Roaster</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header class="top">
+    <span class="logo">🔥</span>
+    <h1>Scam Roaster</h1>
+    <select id="persona" aria-label="Roaster character"></select>
+    <button id="gear" class="icon-btn" type="button" aria-label="Settings" aria-expanded="false">⚙︎</button>
+  </header>
+
+  <section id="settings" class="card settings" hidden>
+    <label for="server">Roast server (keeps your API key off the extension)</label>
+    <div class="row">
+      <input id="server" type="url" spellcheck="false" placeholder="http://localhost:3456" />
+      <button id="saveServer" type="button">Save</button>
+    </div>
+    <p id="serverStatus" class="muted small"></p>
+    <label for="provider">AI model</label>
+    <select id="provider" class="provider-select"></select>
+    <label class="check"><input id="inboxPills" type="checkbox" checked /> Mark risky emails in the Gmail inbox list</label>
+  </section>
+
+  <nav id="tabs" class="tabs" hidden>
+    <button type="button" data-view="email" aria-pressed="true">This email</button>
+    <button type="button" data-view="inbox" aria-pressed="false"><span id="inboxTabLabel">Inbox scan</span> <span id="inboxCount" class="count"></span></button>
+  </nav>
+
+  <section id="inboxView" hidden>
+    <section class="card inbox-summary">
+      <div class="stats">
+        <div><strong id="statTotal">0</strong><span>scanned</span></div>
+        <div class="hot"><strong id="statScam">0</strong><span>scam</span></div>
+        <div class="warm"><strong id="statSus">0</strong><span>suspicious</span></div>
+      </div>
+      <p class="muted small">Quick scan of sender, subject and preview. Open an email for the full check with links.</p>
+      <button id="triage" class="go" type="button">Ask Granny to triage 👵</button>
+      <p class="muted small center">Triage sends the visible senders, subjects and previews to your roast server and Claude.</p>
+      <p id="triageSummary" class="triage-summary" hidden></p>
+    </section>
+    <section id="cleanup" class="card cleanup">
+      <div class="cleanup-head">
+        <h2 id="cleanupTitle">🧹 Clean up this page</h2>
+        <label class="small muted">Risk ≥
+          <select id="threshold" aria-label="Risk threshold">
+            <option value="90">90</option>
+            <option value="80">80</option>
+            <option value="70" selected>70</option>
+            <option value="60">60</option>
+            <option value="50">50</option>
+            <option value="40">40</option>
+            <option value="30">30</option>
+            <option value="20">20</option>
+          </select>
+        </label>
+      </div>
+      <p id="cleanupIntro" class="muted small"></p>
+      <p id="lowWarning" class="low-warning" hidden>⚠️ Below 35 the scanner rates emails as probably legit, so this list will include normal mail. Review it carefully before trashing.</p>
+      <ul id="cleanupList" class="cleanup-list"></ul>
+      <p id="reportOnlyNote" class="report-only" hidden></p>
+      <div id="cleanupActions" class="cleanup-actions">
+        <button id="report" type="button" class="secondary">⬇ Download report</button>
+        <button id="trash" type="button" class="danger">🗑 Move to Trash</button>
+      </div>
+      <div id="confirm" class="confirm" hidden>
+        <p id="confirmText"></p>
+        <div class="cleanup-actions">
+          <button id="cancelTrash" type="button" class="secondary">Cancel</button>
+          <button id="confirmTrash" type="button" class="danger">Yes, move to Trash</button>
+        </div>
+      </div>
+      <p id="cleanupResult" class="cleanup-result" hidden></p>
+    </section>
+
+    <div class="list-head">
+      <h2 id="listTitle">Needs a closer look</h2>
+      <label class="check small"><input id="showAll" type="checkbox" /> Show all</label>
+    </div>
+    <ul id="inboxList" class="inbox-list"></ul>
+  </section>
+
+  <section id="empty" class="empty">
+    <div class="big">📬</div>
+    <p id="emptyText">Open an email in Gmail and I'll take a look.</p>
+  </section>
+
+  <main id="main" hidden>
+    <section class="card email">
+      <div class="subject" id="subject"></div>
+      <div class="from" id="from"></div>
+    </section>
+
+    <section class="card score-card">
+      <div class="ring" id="ring"><span id="score">0</span></div>
+      <div>
+        <div id="verdict" class="verdict"></div>
+        <div id="scoreNote" class="muted small"></div>
+      </div>
+    </section>
+
+    <button id="roast" class="go" type="button">Roast it 🔥</button>
+    <p class="muted small center">The instant check runs locally. Roasting sends this email to your roast server and Claude.</p>
+
+    <section id="roastCard" class="card roast-card" hidden>
+      <div class="who"><span id="pEmoji" class="avatar"></span><span id="pName"></span></div>
+      <p id="headline" class="headline"></p>
+      <div id="roastText" class="roast"></div>
+      <p id="scamType" class="muted small"></p>
+      <p id="offlineNote" class="note" hidden></p>
+    </section>
+
+    <section class="card">
+      <h2>🚩 Red flags</h2>
+      <ul id="flags" class="flags"></ul>
+    </section>
+
+    <section id="linksCard" class="card" hidden>
+      <h2>🔗 Where the links really go</h2>
+      <ul id="links" class="links"></ul>
+    </section>
+
+    <section id="todoCard" class="card" hidden>
+      <h2>🛡️ What to do</h2>
+      <ol id="todo" class="todo"></ol>
+    </section>
+  </main>
+
+  <div id="loading" class="loading" hidden><span class="flame">🔥</span><span id="loadingText"></span></div>
+  <p id="error" class="error" hidden></p>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scam Message Roaster</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">🔥</span>
+      <div>
+        <h1>Scam Message Roaster</h1>
+        <p>Paste a sketchy text or email. Get it roasted. Learn the tells.</p>
+      </div>
+    </div>
+    <label class="ai-pick">AI model
+      <select id="provider" aria-label="AI model"></select>
+    </label>
+  </header>
+
+  <main>
+    <section class="card input-card">
+      <h2 class="step"><span>1</span> Pick your roaster</h2>
+      <div id="personas" class="personas" role="radiogroup" aria-label="Roaster character"></div>
+
+      <h2 class="step"><span>2</span> Paste the suspicious message</h2>
+      <div class="samples">
+        <span>Try one:</span>
+        <button type="button" data-sample="package">📦 Package fee</button>
+        <button type="button" data-sample="paypal">💳 PayPal alert</button>
+        <button type="button" data-sample="mum">📱 "Hi Mum"</button>
+        <button type="button" data-sample="prize">🎁 You won!</button>
+        <button type="button" data-sample="legit">✅ Real one</button>
+      </div>
+      <div class="editor">
+        <textarea id="msg" rows="8" maxlength="6000" placeholder="e.g. USPS: Your package is on hold. Pay $1.99 within 24 hours at..."></textarea>
+        <div id="live" class="live" aria-live="polite"></div>
+      </div>
+      <button id="go" class="go" type="button">Roast it <span aria-hidden="true">🔥</span></button>
+      <p class="privacy">Don't paste passwords or full card numbers. Links in the message are never opened.</p>
+    </section>
+
+    <section id="result" class="result" hidden>
+      <div class="card verdict-card">
+        <div class="gauge-wrap">
+          <svg class="gauge" viewBox="0 0 200 120" aria-hidden="true">
+            <path class="gauge-track" d="M20 100 A80 80 0 0 1 180 100" />
+            <path id="gaugeFill" class="gauge-fill" d="M20 100 A80 80 0 0 1 180 100" />
+          </svg>
+          <div class="gauge-num"><span id="score">0</span><small>/100</small></div>
+          <div id="verdict" class="verdict-tag"></div>
+          <div id="scoreBreakdown" class="breakdown"></div>
+        </div>
+        <div class="speech">
+          <div class="who"><span id="pEmoji" class="avatar"></span><span id="pName"></span></div>
+          <p id="headline" class="headline"></p>
+          <div id="roast" class="roast"></div>
+          <p id="scamType" class="scam-type"></p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>🚩 The message, annotated</h3>
+          <p class="hint">Tap a highlight to see why it's a red flag.</p>
+          <pre id="annotated" class="annotated"></pre>
+          <div id="tip" class="tip" hidden></div>
+        </div>
+        <div class="card">
+          <h3>🔎 Red flags</h3>
+          <ul id="flags" class="flags"></ul>
+          <h3>🛡️ What to do</h3>
+          <ol id="todo" class="todo"></ol>
+        </div>
+      </div>
+    </section>
+
+    <div id="loading" class="loading" hidden>
+      <div class="flame">🔥</div>
+      <p id="loadingText">Preheating the roast...</p>
+    </div>
+    <p id="error" class="error" hidden></p>
+  </main>
+
+  <footer>Rules engine + Claude. Humor is the delivery; the lessons are real.</footer>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Scam Message Roaster",
+  "version": "0.1.0",
+  "description": "Roasts the Gmail email you have open: red flags, a risk score, and a witty explanation.",
+  "permissions": ["sidePanel", "storage", "activeTab", "scripting"],
+  "host_permissions": ["https://mail.google.com/*", "http://localhost/*", "http://127.0.0.1/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "action": { "default_title": "Roast this email" },
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    { "resources": ["lib/rules.js"], "matches": ["https://mail.google.com/*"] }
+  ],
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+}

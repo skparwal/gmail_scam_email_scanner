@@ -1,0 +1,16 @@
+{
+  "name": "scam-message-roaster",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "build:ext": "node scripts/build-extension.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.1",
+    "zod": "^4.6.5"
+  }
+}
